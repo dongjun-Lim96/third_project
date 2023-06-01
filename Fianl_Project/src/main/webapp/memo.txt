@@ -1,0 +1,126 @@
+--회원정보
+create table UserInfo(
+   userId varchar2(50) primary key,
+   userName varchar2(50) not null,
+   userPw varchar2(50) not null,
+   userBirth varchar2(50) not null,
+   userEmail varchar2(70) not null,
+   userPhone number not null,
+   userAddr varchar2(80) not null,
+   userPoint number default 0,
+   userChkEmail varchar2(5) not null,
+   userChkPhone varchar2(5) not null,
+   userSubscribe varchar2(5) not null,
+   userJoinDate varchar2(20) default sysdate,
+   userOut number not null
+);
+
+
+--장바구니
+create table Cart(
+ 	cartNumber number primary key,
+	courseCode varchar2(50) references course (courseCode),
+	userId varchar2(50) references UserInfo (userId)
+);
+
+
+--위시리스트
+create table wishlist(
+ 	wishNumber number primary key,
+	courseCode varchar2(50) references course (courseCode),
+	userId varchar2(50) references UserInfo (userId)
+);
+
+
+--주문
+create table Order(
+   orderNumber varchar2(200) primary key,
+   userId varchar2(50) references UserInfo (userId),\
+   courseCode varchar2(50) references course (courseCode),
+   orderPoint number default 0,
+   coursePrice number not null
+);
+
+
+
+
+
+--관리자
+create table AdminInfo(
+ 	adminId varchar2(50) primary key,
+	adminPw varchar2(50) not null
+);
+
+
+--카테고리
+create table category(
+ 	categoryCode varchar2(50) primary key,
+	categoryName varchar2(50) not null
+);
+
+
+--강의
+create table course(
+   courseCode varchar2(50) primary key,
+   categoryCode varchar2(50) references category (categoryCode),
+   courseName varchar2(50) not null,
+   coursePrice number not null,
+   courseTeacher varchar2(50) not null,
+   courseImg varchar2(50) not null,
+   courseVideo varchar2(50) not null,
+   courseTerm number not null
+);
+
+
+--대단원
+create table unit(
+   courseCode varchar2(50) primary key,
+   Unit1 varchar2(200) default null,
+   Unit2 varchar2(200) default null,
+   Unit3 varchar2(200) default null,
+   Unit4 varchar2(200) default null,
+   Unit5 varchar2(200) default null,
+   Unit6 varchar2(200) default null,
+   Unit7 varchar2(200) default null,
+   Unit8 varchar2(200) default null,
+   Unit9 varchar2(200) default null,
+   Unit10 varchar2(200) default null,
+);
+
+
+--공지
+create table notice(
+   noticeNumber number primary key,
+   noticeAdminId varchar2(50) references UserInfo(userId) on delete set null,
+   noticeContent varchar2(500) not null,
+   noticeTitle varchar2(50) not null,
+   noticeImage1 varchar2(50) default null,
+   noticeImage2 varchar2(50) default null,
+   noticeDate number not null,
+   noticeView number not null default 0
+);
+
+--faq
+create table Faq(
+   faqNumber number primary key,
+   faqAdminId varchar2(50) references UserInfo(userId) on delete set null,
+   faqContent varchar2(500) not null,
+   faqTitle varchar2(50) not null,,
+   faqImage1 varchar2(50) default null,
+   faqImage2 varchar2(50) default null,
+   faqDate number  not null,
+   faqView number  not null default 0
+);
+
+
+--이벤트
+create table Event(
+   eventNumber number primary key,
+   eventAdminId varchar2(50) references UserInfo(userId) on delete set null,
+   eventContent varchar2(500) not null,
+   eventTitle varchar2(50) not null,,
+   eventImage1 varchar2(50) default null,
+   eventImage2 varchar2(50) default null,
+   eventDate number  not null,
+   eventView number  not null default 0
+);
